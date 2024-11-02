@@ -2,6 +2,7 @@ package com.workintech.fswebs17d1.controller;
 
 import com.workintech.fswebs17d1.entity.Animal;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,10 +12,16 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(path = "/workkintech/animal")
+@RequestMapping(path = "/workintech/animal")
 public class AnimalController {
 
     private Map<Integer, Animal> animals;
+
+    @Value("${project.developer.fullname}")
+    private String devName;
+
+    @Value("${course.name}")
+    private String cName;
 
     @PostConstruct
     public void loadAll(){
@@ -30,6 +37,8 @@ public class AnimalController {
 
         return new ArrayList<>(animals.values());
     }
+
+
 
     @GetMapping("{id}")
     public Animal getAnimal(@PathVariable("id") int id){
@@ -52,7 +61,7 @@ public class AnimalController {
         return this.animals.get(id);
     }
 
-    @DeleteMapping("id")
+    @DeleteMapping("{id}")
     public void deleteAnimal(@PathVariable("id") int id){
         this.animals.remove(id);
     }
